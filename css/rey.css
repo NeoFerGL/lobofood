@@ -1,0 +1,216 @@
+A {text-decoration: none;} 
+
+.carousel-inner img {
+ width: 100%; 
+ height: 100%;
+
+}
+:root{
+ --color-dark: #1b1b1b;
+ --color-light: #ffffff;
+ --color-gold: #c7b8a5;
+ --color-gray:#efefef;
+}
+.a{
+ text-decoration: none;
+}
+
+body{
+font-family: 'Oswald', sans-serif;
+font-weight: 200;
+background-color: var(--color-dark);
+letter-spacing: .05rem;
+
+}
+.bg-grey{
+ background-color: var(--color-light);
+}
+.text-light{
+ font-size: large;
+}
+.lead-xl {
+ font-size: 1.75rem;
+ color: var(--color-light);
+ font-weight: bold; 
+ letter-spacing: 20%; 
+}
+.lead-x{
+ font-size: 1;
+ letter-spacing: 15%;
+
+}
+.lead{
+ color: var(--color-gold);
+ margin: auto;
+}
+
+.nav-link{
+ margin-left: 2rem;
+}
+
+.sideways{
+ writing-mode: vertical-lr;
+ display: block;
+ margin: 3.5rem 0;
+ transform: rotate(180deg);
+}
+
+.h1{
+ font-weight: bold;
+ color: var(--color-gold);
+}
+.h3{
+ font-weight: bold;
+ color: var(--color-dark);
+}
+.h4{
+ font-weight: bold;
+ color: var(--color-gold); 
+}
+span{
+ font-weight: bold;  
+}
+.btn-primary{
+ background-color: transparent;
+ border: 1px solid var(--color-light);
+ padding: .7rem 2.5rem;
+ font-size: 1.25rem;
+}
+.btn-primary:hover{
+ background-color: var(--color-light);
+ color:var(--color-gold);
+ border: 1px solid var(--color-light);
+ position: relative;
+}
+.btn-secondary{
+ background-color:#181818;
+ border: .2px solid var(--color-dark);
+ padding: .7rem 2.5rem;
+ font-size: .7rem;
+ align-items: center;
+}
+.btn-secondary:hover{
+ background-color: var(--color-gold);
+ color:var(--color-dark);
+ border: 1px solid var(--color-dark);
+ margin: auto;
+}
+.navbar{
+ min-height: 1rem;
+color: #1b1b1b;
+font-size: x-large;
+}
+.border-right{
+ border-right:1px solid rgba(256, 256, 256, .1)!important ;
+}
+
+@media (max-width: 1198.98px){
+ .sideways{
+     margin: 2rem 0;
+ }
+ .lead-xl{
+     font-size: 1.25rem;
+ }
+}
+
+@media (max-width: 991.98px){
+ .content{
+     padding: 5rem 0;
+ }
+}
+.bd-placeholder-img {
+     font-size: 1.125rem;
+     text-anchor: middle;
+     -webkit-user-select: none;
+     -moz-user-select: none;
+     user-select: none;
+   }
+
+   @media (min-width: 768px) {
+     .bd-placeholder-img-lg {
+       font-size: 3.5rem;
+     }
+   }
+
+   
+.container2{
+    height: 100%;
+    width: 100%;
+    background-image:linear-gradient(rgba(0, 0, 0, 0.5),rgba(0,0,0,0.5)),url(../img/fondo_ambur.jpg);
+    background-position: center;
+    background-size: cover;
+    position: absolute;
+    text-align: center;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+.form-box{
+    width: 400px;
+    height: 550px;
+    position: relative;
+    margin: 6% auto;
+    background: #fff;
+    padding: 5px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.button-box{
+    width: 240px;
+    margin: auto;
+    position: relative;
+    border-radius: 30px;
+    box-shadow: 0 0 20px 9px #eeeaea;
+}
+.toggle-btn{
+    padding: 10px 22px;
+    cursor: pointer;
+    background: transparent;
+    border: 0px;
+    outline: none;
+    position: relative;
+}
+.logos-lobos{
+    margin: 5px auto;
+    text-align: center;
+}
+.logos-lobos img{
+    width: 100px;
+    margin: 0 12px;
+    /*box-shadow: 0 0 20px 9px #e0e0e0;*/
+    cursor: pointer;
+    border-radius: 60%;
+}
+
+.input-group{
+    top: 130px;
+    position: absolute;
+    width: 280px;
+    margin-left: 60px;
+}
+
+.input-field{
+    width: 100%;
+    padding: 8px;
+    margin: 8px 0;
+    border-left: 0;
+    border-top: 0;
+    border-right: 0;
+    border-bottom: 2px solid #caf336;
+    outline: none;
+    background: transparent;
+}
+.submit-btn{
+    width: 85%;
+    padding: 10px 30px;
+    cursor: pointer;
+    display: block;
+    margin: auto;
+    background: linear-gradient(to right,rgba(244, 234, 17, 0.8),rgba(251, 245, 105, 0.8));
+    border: 0px;
+    outline: none;
+    border-radius: 30px;
+}
+
+.seleccion{
+    margin: 15px;
+}
+ 

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cronómetro</title>
+</head>
+<body>
+  <h1>Cronómetro</h1>
+  <button id="startButton">Apartar</button>
+  <p id="timer">2:00</p>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', function() {
+  var startButton = document.getElementById('startButton');
+  var timerElement = document.getElementById('timer');
+  var startTime = localStorage.getItem('startTime');
+
+  var duration = 2 * 60 * 1000; // 2 minutos en milisegundos
+
+  if (startTime) {
+    var elapsedTime = Date.now() - startTime;
+    if (elapsedTime >= duration) {
+      // El tiempo ha pasado, se reinicia el cronómetro
+      localStorage.removeItem('startTime');
+    } else {
+      // El cronómetro aún está en marcha
+      duration -= elapsedTime;
+      startTimer();
+    }
+  }
+
+  startButton.addEventListener('click', function() {
+    // Guardar el tiempo de inicio en el almacenamiento local
+    localStorage.setItem('startTime', Date.now());
+    startTimer();
+  });
+
+  function startTimer() {
+    startButton.disabled = true;
+
+    var interval = setInterval(function() {
+      duration -= 1000; // Restar 1 segundo
+      var minutes = Math.floor(duration / (1000 * 60));
+      var seconds = Math.floor((duration % (1000 * 60)) / 1000);
+
+      // Formatear el tiempo como "MM:SS"
+      var timeString = ('0' + minutes).slice(-2) + ':' + ('0' + seconds).slice(-2);
+      timerElement.textContent = timeString;
+
+      if (duration <= 0) {
+        clearInterval(interval);
+        timerElement.textContent = '2:00'; // Restablecer el texto del cronómetro
+        startButton.disabled = false;
+        localStorage.removeItem('startTime'); // Eliminar el tiempo de inicio
+      }
+    }, 1000);
+  }
+});
+
+  </script>
+</body>
+</html>
+
+
+
+<!--Codigo original de ticket.php
+<?php session_start(); ?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8"> 
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;600&display=swap" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+    <title>Datos de orden</title>
+    <link rel="icon" type="icon" href="img/favicon.ico">
+    <link rel="stylesheet" href="css/rey.css">
+    <link rel="stylesheet" href="css/cronometro.css">
+
+</head>
+
+<body>
+    <section>
+        <script>
+            var segundos = localStorage.getItem('segundosRestantes') || 180;
+
+            function actualizarCronometro() {
+                var cronometro = document.getElementById("cronometro");
+                if (segundos > 0) {
+                    var minutos = Math.floor(segundos / 60);
+                    var segundosRestantes = segundos % 60;
+                    cronometro.innerText = "Tiempo restante: " + minutos + " minutos " + segundosRestantes + " segundos";
+                    segundos--;
+                    localStorage.setItem('segundosRestantes', segundos); // Guardar los segundos restantes en el almacenamiento local
+                    setTimeout(actualizarCronometro, 1000);
+                } else {
+                    cronometro.innerText = "Tiempo agotado";
+                    // Aquí se puede agregar el código para liberar el producto apartado
+                }
+            }
+
+            document.addEventListener("DOMContentLoaded", function(event) {
+                actualizarCronometro();
+
+                // Agregar un evento al botón "Apartar" para detener el cronómetro
+                document.getElementById("btn-apartar").addEventListener("click", function() {
+                    segundos = 180;
+                    localStorage.removeItem('segundosRestantes'); // Eliminar los segundos restantes del almacenamiento local
+                });
+            });
+        </script>
+
+
+        <div class="row no-gutters">
+            <div class="col-1 d-none d-lg-block border-right">
+                <div class="d-flex h-25">
+                    <div class="align-content-center mx-auto lead-xl">
+                        <a href="interfaz_usuario.php"> <img src="img/lobo-logo.png" class="img-fluid" style="height: 70px;"></a>
+                    </div>
+                </div>
+            </div>
+            <?php
+            $conexion = mysqli_connect("localhost", "root", "", "lobofood");
+            $matricula = $_SESSION['matricula'];
+            $usuario = "SELECT nombre FROM usuarios WHERE matricula='$matricula'";
+            $res = mysqli_query($conexion, $usuario);
+            $res2 = mysqli_fetch_array($res);
+            $nom = $res2['nombre'];
+            ?>
+
+            <?php
+            //tomar nombre si es usuario nuevo 
+            if (isset($_GET['nom'])) {
+                $nom = $_GET['nom'];
+            }
+            ?>
+
+            <?php
+            $servername = "localhost";
+            $username = "root";
+            $password = "";
+            $dbname = "lobofood";
+
+            $conn = new mysqli($servername, $username, $password, $dbname);
+
+            // Verificar si la clave "carrito" está definida en $_SESSION MODIFICACION EVELYN
+            if (isset($_SESSION['carrito']) && is_array($_SESSION['carrito'])) {
+                $id_usuario = $_SESSION['matricula'];
+                $carrito = $_SESSION['carrito'];
+                $sql = "INSERT INTO orden (numorden,matricula) VALUES ('Null',$id_usuario)";
+                mysqli_query($conn, $sql);
+
+                $id_orden = mysqli_insert_id($conn);
+
+                foreach ($carrito as $producto) {
+                    $id_producto = $producto['idproducto'];
+                    $cantidad = $producto['cantidad'];
+                    $precio_unitario = $producto['precio'] * $producto['cantidad'];
+                    $sql = "INSERT INTO productoaorden (idproductoaorden,idproducto, numorden, cantidad, total) VALUES ('Null',$id_producto,$id_orden, $cantidad, $precio_unitario)";
+                    mysqli_query($conn, $sql);
+                }
+
+                unset($_SESSION['carrito']);
+                $total = 0;
+            } else {
+                $carrito = array(); // Definir un array vacío si la clave "carrito" no está presente  MODIFICACION EVELYN
+            }
+
+            mysqli_close($conn);
+
+            ?>
+
+            <!-- Primera divicion menu de arriba a la izquierda-->
+            <div class="col-lg-11">
+                <nav class="navbar navbar-expand-sm">
+                    <a class="navbar-brand text-light" href=""> <span class="font-weight-bold t" style="font-size:x-large">Bienvenido <?php echo $nom; ?></span></a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown">
+                        <ion-icon class="lead-xl text-light" name="menu-outline"></ion-icon>
+                    </button>
+                    <!-- Primera divicion menu de arriba a la derecha-->
+                    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                        <ul class="navbar-nav ms-lg-auto">
+                            <li>
+                                <a class="nav-link text-light lead-x" href="cerrar.php" style="font-weight:bold;">Cerrar sesion</a>
+                            </li>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        </div>
+
+        <!-- Div que muestra el tiempo restante-->
+        <div>
+            <p id="cronometro"></p>
+        </div>
+
+        <footer class="text-muted py-5">
+            <div class="container">
+                <p class="float-end mb-1">
+                    <a href="#" class="text-ligh lead"><ion-icon name="arrow-up-outline"></ion-icon></a>
+                </p>
+            </div>
+        </footer>
+
+    </section>
+    <!--Este div me servira para mostrar los datos de la orden-->
+    <div class="container bg-dark">
+        <h1 class="text-center text-white">Tu Nota</h1>
+    </div>
+
+    <div class="container text-white bg-light">
+        <table class="table table-striped">
+            <tbody>
+                <tr>
+                    <th scope="col">Nombre Usuario</th>
+                    <th scope="col">Nombre del producto</th>
+                    <th scope="col">Precio</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Numero Orden</th>
+                    <th scope="col">Total</th>
+                </tr>
+            </tbody>
+            <tbody>
+                <?php
+
+                $servername = "localhost";
+                $username = "root";
+                $password = "";
+                $dbname = "lobofood";
+                $conn = new mysqli($servername, $username, $password, $dbname);
+                $iduser = $_SESSION['matricula'];
+                $sql = "SELECT us.nombre,p.nombrep,p.precio,pao.idproducto,pao.numorden,pao.cantidad,pao.total FROM productoaorden  AS pao INNER JOIN producto as p ON pao.idproducto = p.idproducto
+                    INNER JOIN orden as o ON pao.numorden = o.numorden
+                    INNER JOIN usuarios as us ON o.matricula = us.matricula
+                    WHERE us.matricula='" . $iduser . "'";
+
+                $resulatado = $conn->query($sql);
+
+                while ($data = $resulatado->fetch_assoc()) {
+                ?>
+                    <tr>
+                        <th scope="row"> <?php echo $data['nombre'] ?> </th>
+                        <th scope="row"> <?php echo $data['nombrep'] ?> </th>
+                        <th scope="row"> <?php echo $data['precio'] ?> </th>
+                        <th scope="row"> <?php echo $data['cantidad'] ?> </th>
+                        <th scope="row"> <?php echo "$" . $data['numorden'] ?> </th>
+                        <th scope="row"> <?php echo "$" . $data['total'] ?> </th>
+                    </tr>
+                <?php
+                }
+                ?>
+            </tbody>
+
+        </table>
+    </div>
+    <div>
+        <p>Orden Actual</p>
+    </div>
+    <div class="container">
+        <a class="btn btn-success" href="carrito.php">Regresar</a>
+    </div>
+
+</body>
+
+</html>
+-->
